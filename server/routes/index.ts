@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authMw } from './middleware';
 import { login, logout, check } from './Auth';
 import { getAllUsers, addOneUser, updateOneUser, deleteOneUser } from './Users';
+import { getAllPosts, addOnePost, updateOnePost, deleteOnePost } from './Posts';
 
 
 // Auth router
@@ -17,8 +18,16 @@ userRouter.post('/add', addOneUser);
 userRouter.put('/update', updateOneUser);
 userRouter.delete('/delete/:id', deleteOneUser);
 
+// Post router
+const postRouter = Router();
+postRouter.get('/all', getAllPosts);
+postRouter.post('/add', addOnePost);
+postRouter.put('/update', updateOnePost);
+postRouter.delete('/delete/:id', deleteOnePost);
+
 // Base router (serves all others)
 const baseRouter = Router();
 baseRouter.use('/auth', authRouter);
 baseRouter.use('/users', authMw, userRouter);
+baseRouter.use('/posts', authMw, postRouter);
 export default baseRouter;
