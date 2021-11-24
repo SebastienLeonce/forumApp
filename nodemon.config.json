@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "./server/"
+  ],
+  "ext": "ts",
+  "ignore": [
+    "**/*.test.ts"
+  ],
+  "exclude": ["./server/spec"],
+  "exec": "nyc ts-node --project ./tsconfig.json -r tsconfig-paths/register --files ./server/index.ts"
+}

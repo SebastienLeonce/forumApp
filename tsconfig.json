@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./node_modules/@types", "./server/@types"],
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "webpack-env", "cypress"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@daos/*": [
+        "./server/daos/*"
+      ],
+      "@entities/*": [
+        "./server/entities/*"
+      ],
+      "@shared/*": [
+        "./server/shared/*"
+      ],
+      "@server": [
+        "./server/Server"
+      ],
+      "@routes/*": [
+        "./server/routes/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "server/**/*.ts",
+    "build.ts",
+    "src/**/*.{ts,vue}"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
