@@ -15,6 +15,7 @@ describe('postRouter', () => {
     const apiUrl = 'http://localhost:3000';
     const postsPath = `${apiUrl}/api/posts`;
     const getPath = `${postsPath}/all`;
+    const getOne = `${postsPath}/`;
     const updatePath = `${postsPath}/update`;
     const deletePath = `${postsPath}/delete`;
     const addPath = `${postsPath}/add`;
@@ -24,6 +25,17 @@ describe('postRouter', () => {
         it(`should return a response with a status of "${OK}".`, (done) => {
             cy.login();
             cy.request('GET', getPath)
+                .should((res : any) => {
+                    expect(res.status).equal(OK);
+                    done();
+                });
+        });
+    });
+
+    describe(`"GET - ${getOne}"`, () => {
+        it(`should return a response with a status of "${OK}".`, (done) => {
+            cy.login();
+            cy.request('GET', `${getOne}/356537875835`)
                 .should((res : any) => {
                     expect(res.status).equal(OK);
                     done();

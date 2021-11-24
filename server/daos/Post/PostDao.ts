@@ -3,7 +3,7 @@ import { IPost } from '@entities/Post';
 
 
 export interface IPostDao {
-    getOne: (title: string) => Promise<IPost | null>;
+    getOne: (id: number) => Promise<IPost | null>;
     getAll: () => Promise<IPost[]>;
     add: (post: IPost) => Promise<void>;
     update: (post: IPost) => Promise<void>;
@@ -16,7 +16,7 @@ class PostDao implements IPostDao {
     /**
      * @param email
      */
-    public getOne(title: string): Promise<IPost | null> {
+    public getOne(id: number): Promise<IPost | null> {
         // TODO
         return Promise.resolve(null);
     }

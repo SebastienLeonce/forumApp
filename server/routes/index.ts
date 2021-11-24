@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { authMw } from './middleware';
 import { login, logout, check } from './Auth';
 import { getAllUsers, addOneUser, updateOneUser, deleteOneUser } from './Users';
-import { getAllPosts, addOnePost, updateOnePost, deleteOnePost } from './Posts';
+import { getOnePost, getAllPosts, addOnePost, updateOnePost, deleteOnePost } from './Posts';
 
 
 // Auth router
@@ -21,6 +21,7 @@ userRouter.delete('/delete/:id', deleteOneUser);
 // Post router
 const postRouter = Router();
 postRouter.get('/all', getAllPosts);
+postRouter.get('/:id', getOnePost);
 postRouter.post('/add', addOnePost);
 postRouter.put('/update', updateOnePost);
 postRouter.delete('/delete/:id', deleteOnePost);

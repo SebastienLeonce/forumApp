@@ -8,10 +8,10 @@ import MockDaoMock from '../MockDb/MockDao.mock';
 class PostDao extends MockDaoMock implements IPostDao {
 
 
-    public async getOne(title: string): Promise<IPost | null> {
+    public async getOne(id: number): Promise<IPost | null> {
         const db = await super.openDb();
         for (const post of db.posts) {
-            if (post.title === title) {
+            if (post.id === id) {
                 return post;
             }
         }

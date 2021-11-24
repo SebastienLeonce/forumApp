@@ -16,9 +16,23 @@ const { BAD_REQUEST, CREATED, OK } = StatusCodes;
  * @param res 
  * @returns 
  */
-export async function getAllPosts(req: Request, res: Response) {
+ export async function getAllPosts(req: Request, res: Response) {
     const posts = await postDao.getAll();
     return res.status(OK).json({posts});
+}
+
+
+/**
+ * Get one post.
+ * 
+ * @param req 
+ * @param res 
+ * @returns 
+ */
+ export async function getOnePost(req: Request, res: Response) {
+    const { id } = req.params;
+    const post = await postDao.getOne(Number(id));
+    return res.status(OK).json({post});
 }
 
 
