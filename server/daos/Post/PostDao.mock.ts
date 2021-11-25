@@ -15,7 +15,7 @@ class PostDao extends MockDaoMock implements IPostDao {
                 return post;
             }
         }
-        return null;
+        throw new Error('Post not found');
     }
 
 

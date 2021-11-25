@@ -15,7 +15,7 @@ describe('postRouter', () => {
     const apiUrl = 'http://localhost:3000';
     const postsPath = `${apiUrl}/api/posts`;
     const getPath = `${postsPath}/all`;
-    const getOne = `${postsPath}/`;
+    const getOne = `${postsPath}`;
     const updatePath = `${postsPath}/update`;
     const deletePath = `${postsPath}/delete`;
     const addPath = `${postsPath}/add`;
@@ -23,7 +23,6 @@ describe('postRouter', () => {
 
     describe(`"GET - ${getPath}"`, () => {
         it(`should return a response with a status of "${OK}".`, (done) => {
-            cy.login();
             cy.request('GET', getPath)
                 .should((res : any) => {
                     expect(res.status).equal(OK);
@@ -34,18 +33,27 @@ describe('postRouter', () => {
 
     describe(`"GET - ${getOne}"`, () => {
         it(`should return a response with a status of "${OK}".`, (done) => {
-            cy.login();
             cy.request('GET', `${getOne}/356537875835`)
                 .should((res : any) => {
                     expect(res.status).equal(OK);
                     done();
                 });
         });
+
+        it(`should return a response with a status of "${BAD_REQUEST}".`, (done) => {
+            cy.request( {
+                method: 'GET',
+                url: `${getOne}/356588875835`,
+                failOnStatusCode: false
+            }).should((res : any) => {
+                expect(res.status).equal(BAD_REQUEST);
+                done();
+            });
+        });
     });
 
     describe(`"PUT - ${updatePath}"`, () => {
         it(`should return a response with a status of "${OK}".`, (done) => {
-            cy.login();
             cy.request('PUT', updatePath, {
                 post : {
                     "title":"ggg",
@@ -60,7 +68,6 @@ describe('postRouter', () => {
         });
 
         it(`should return a response with a status of "${BAD_REQUEST}".`, (done) => {
-            cy.login();
             cy.request({
                 method: 'PUT', 
                 url: updatePath, 
@@ -80,7 +87,6 @@ describe('postRouter', () => {
         });
 
         it(`should return a response with a status of "${BAD_REQUEST}".`, (done) => {
-            cy.login();
             cy.request({
                 method: 'PUT', 
                 url: updatePath, 
@@ -118,7 +124,6 @@ describe('postRouter', () => {
 
     describe(`"POST - ${addPath}"`, () => {
         it(`should return a response with a status of "${CREATED}".`, (done) => {
-            cy.login();
             cy.request('POST', addPath, {
                 post : {
                     title:"Test",
@@ -132,7 +137,6 @@ describe('postRouter', () => {
         });
 
         it(`should return a response with a status of "${BAD_REQUEST}".`, (done) => {
-            cy.login();
             cy.request({
                 method: 'POST', 
                 url: addPath,
