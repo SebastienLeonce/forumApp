@@ -8,9 +8,8 @@
 </template>
 
 <script lang="ts">
-import { reactive } from "@vue/reactivity"
 import { useRouter } from "vue-router"
-import { inject } from "vue"
+import { inject, reactive } from "vue"
 import { AxiosStatic } from "axios"
 
 export default {
