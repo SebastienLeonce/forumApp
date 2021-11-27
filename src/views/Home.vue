@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <a-row type="flex" justify="space-around" align="middle">
     <login-component />
-  </div>
+  </a-row>
 </template>
 
 <script lang="ts">
