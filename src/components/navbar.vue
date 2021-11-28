@@ -37,7 +37,7 @@
   
   <a-popover v-model:visible="showAddForm" title="Add Post" trigger="click">
     <template #content>
-      <a-card>
+      <a-card >
         <addPostComponent />
       </a-card>
     </template>

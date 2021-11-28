@@ -1,20 +1,13 @@
 <template>
   <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
-    <a-form-item label="Activity name" v-bind="validateInfos.name">
-      <a-input v-model:value="modelRef.name" />
+    <a-form-item label="Title">
+      <a-input />
     </a-form-item>
-    <a-form-item label="Activity zone" v-bind="validateInfos.region">
-      <a-select v-model:value="modelRef.region" placeholder="please select your zone">
-        <a-select-option value="shanghai">Zone one</a-select-option>
-        <a-select-option value="beijing">Zone two</a-select-option>
-      </a-select>
+    <a-form-item label="Content">
+        <a-textarea placeholder="Basic usage" :rows="4" />
     </a-form-item>
-    <a-form-item label="Activity type" v-bind="validateInfos.type">
-      <a-checkbox-group v-model:value="modelRef.type">
-        <a-checkbox value="1" name="type">Online</a-checkbox>
-        <a-checkbox value="2" name="type">Promotion</a-checkbox>
-        <a-checkbox value="3" name="type">Offline</a-checkbox>
-      </a-checkbox-group>
+    <a-form-item label="Description">
+        <a-textarea placeholder="Basic usage" :rows="4" />
     </a-form-item>
     <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
       <a-button type="primary" @click.prevent="onSubmit">Create</a-button>
@@ -68,8 +61,8 @@ export default defineComponent({
         });
     };
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 14 },
+      labelCol: { span: 7 },
+      wrapperCol: { span: 14, offset: 4 },
       validateInfos,
       resetFields,
       modelRef,
