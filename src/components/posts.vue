@@ -34,21 +34,8 @@
 </template>
 <script lang="ts">
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
-import { defineComponent, Ref, ref } from 'vue';
-
-const listData: Record<string, string>[] = [];
-
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently. We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently. We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
+import { defineComponent, Ref, ref, inject } from 'vue';
+import { AxiosStatic } from "axios"
 
 export default defineComponent({
   components: {
@@ -57,24 +44,35 @@ export default defineComponent({
     MessageOutlined,
   },
   setup() {
+    const axios: AxiosStatic | undefined = inject("axios");
+    const listData: Record<string, string>[] = [];
+    const loading : Ref<boolean> = ref(true);
+    const loadingMore : Ref<boolean> = ref(false);
+    const listData2: Ref<Record<string, string>[]> = ref([]);
+
     const actions: Record<string, string>[] = [
       { type: 'StarOutlined', text: '156' },
       { type: 'LikeOutlined', text: '156' },
       { type: 'MessageOutlined', text: '2' },
     ];
 
-    const loading : Ref<boolean> = ref(true);
-    const loadingMore : Ref<boolean> = ref(false);
-    let listData2: Ref<Record<string, string>[]> = ref(listData.splice(0, 5));
-
-    setTimeout(() => loading.value = false, 2000);
+    (axios as AxiosStatic)
+      .get("posts/all")
+      .then((response: { data: { posts: [] } }) => {
+        listData.push(...response.data.posts)
+        listData2.value.push(...listData.splice(0, 5));
+        loading.value = false;
+      })
+      .catch((error: Error) => {
+        alert(error.message)
+      })
 
     const loadMore = () => {
         loadingMore.value = true;
         setTimeout(() => {
             loadingMore.value = false;
             listData2.value.push(...listData.splice(0, 5));
-        }, 2000);
+        }, 1000);
     };
 
     return {
