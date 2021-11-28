@@ -13,16 +13,17 @@
       Best Posts
     </a-menu-item>
     
-    <a-menu-item key="add" style="margin-left: auto">
+    <a-menu-item key="add" style="margin-left: auto; cursor: default;" disabled>
         <a-button 
             type="primary"
             data-cy="addPost"
+            @click="addPost"
         >
             <template #icon><PlusOutlined /></template>
                 Add Post
             </a-button>
     </a-menu-item>
-    <a-menu-item key="logout">
+    <a-menu-item key="logout" style="cursor: default;" disabled>
         <a-button 
             @click="logout" 
             data-cy="logout"
@@ -33,9 +34,19 @@
         </a-button>
     </a-menu-item>
   </a-menu>
+  
+  <a-popover v-model:visible="showAddForm" title="Add Post" trigger="click">
+    <template #content>
+      <a-card>
+        <addPostComponent />
+      </a-card>
+    </template>
+  </a-popover>
 </template>
 <script lang="ts">
-import { defineComponent, inject, ref } from 'vue';
+import addPostComponent from "@/components/addPost.vue"
+
+import { defineComponent, inject, Ref, ref } from 'vue';
 import { MailOutlined, AppstoreOutlined, SettingOutlined, PlusOutlined, LogoutOutlined } from '@ant-design/icons-vue';
 import { AxiosStatic } from 'axios';
 import { useRouter } from 'vue-router';
@@ -46,12 +57,15 @@ export default defineComponent({
     AppstoreOutlined,
     SettingOutlined,
     PlusOutlined,
-    LogoutOutlined
+    LogoutOutlined,
+    addPostComponent
   },
   setup() {
         const current = ref<string[]>(['mail']);
         const axios: AxiosStatic | undefined = inject("axios")
         const router = useRouter()
+
+        const showAddForm : Ref<boolean> = ref(false);
 
         const logout = () => {
             (axios as AxiosStatic)
@@ -63,10 +77,16 @@ export default defineComponent({
                     alert(error.message)
                 });
         }
+
+        const addPost = () => {
+          showAddForm.value = true;
+        }
         
         return {
             current,
-            logout
+            logout,
+            addPost,
+            showAddForm
         };
   },
 });
