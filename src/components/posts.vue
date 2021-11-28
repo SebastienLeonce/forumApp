@@ -18,7 +18,7 @@
           <img
             width="272"
             alt="logo"
-            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+            src="../assets/grizly.png"
           />
         </template>
         <a-list-item-meta :description="item.description">
@@ -66,7 +66,7 @@ export default defineComponent({
     const loading : Ref<boolean> = ref(true);
     const loadingMore : Ref<boolean> = ref(false);
     let listData2: Ref<Record<string, string>[]> = ref(listData.splice(0, 5));
-    
+
     setTimeout(() => loading.value = false, 2000);
 
     const loadMore = () => {
