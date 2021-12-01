@@ -3,15 +3,21 @@
     v-model:visible="visible"
     title="Add a new Post"
     centered
-    @ok="emit('close')"
+    @ok="submit=true"
     @cancel="emit('close')"
   >
-    <addPostFormComponent />
+    <addPostFormComponent 
+      :submit="submit" 
+      @ok="emit('close');"
+      @ko="submit=false;"
+    />
   </a-modal>
 </template>
 
 <script setup lang="ts">
 import addPostFormComponent from '@/components/addPostForm.vue'
+import { ref } from 'vue';
+
 defineProps({
   visible: Boolean
 });
@@ -19,4 +25,6 @@ defineProps({
 const emit = defineEmits<{
   (event: 'close'): void
 }>(); 
+
+const submit = ref(false);
 </script>

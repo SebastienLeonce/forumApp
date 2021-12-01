@@ -1,19 +1,20 @@
 <template>
 <a-form :label-col="{ span: 6 }" >
-    <a-form-item label="Title" v-bind="validateInfos.name" style="align-items: flex-end;">
+    <a-form-item label="Title" v-bind="validateInfos.title" style="align-items: flex-end;">
         <a-input 
             placeholder="Title ..."
-            v-model:value="modelRef.name" />
+            v-model:value="modelRef.title" />
     </a-form-item>
-    <a-form-item label="Description" v-bind="validateInfos['sub.name']">
+    <a-form-item label="Description" v-bind="validateInfos.description">
         <a-input 
             placeholder="Content ..."
-            v-model:value="modelRef.sub.name" />
+            v-model:value="modelRef.description" />
     </a-form-item>
-    <a-form-item label="Content" v-bind="validateInfos['sub.name']">
+    <a-form-item label="Content" v-bind="validateInfos.content">
         <a-textarea
             placeholder="Autosize height with minimum and maximum number of lines"
             :auto-size="{ minRows: 5, maxRows: 5 }"
+            v-model:value="modelRef.content"
         />
     </a-form-item>
 </a-form>
@@ -21,45 +22,80 @@
 
 
 <script setup lang="ts">
-import { reactive, toRaw } from 'vue';
+import { reactive, toRaw, watch, inject } from 'vue';
 import { Form } from 'ant-design-vue';
+import { AxiosStatic } from 'axios';
 
+const axios: AxiosStatic | undefined = inject("axios")
 const useForm = Form.useForm;
 
-const modelRef = reactive({
-  name: '',
-  sub: {
-    name: '',
-  },
+const props = defineProps({
+  submit: Boolean
 });
-const { resetFields, validate, validateInfos } = useForm(
+
+const emit = defineEmits<{
+  (event: 'ok'): void
+  (event: 'ko'): void
+}>(); 
+
+watch(() => props.submit, (submit) => { 
+  if (submit) {
+    onSubmit();
+  }
+});
+
+const modelRef = reactive({
+  title: '',
+  description: '',
+  content: '',
+  href: "https://www.antdv.com/",
+  avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+  author: "seb"
+});
+
+const { validate, validateInfos } = useForm(
   modelRef,
   reactive({
-    name: [
+    title: [
       {
         required: true,
-        message: 'Please input name',
+        message: 'Please input title',
       },
     ],
-    'sub.name': [
+    description: [
       {
         required: true,
-        message: 'Please input sub name',
+        message: 'Please input description',
       },
     ],
+    content: [
+      {
+        required: true,
+        message: 'Please input content',
+      },
+    ],
+    href: [], avatar: [], author: [],
   }),
 );
 
 const onSubmit = () => {
   validate()
     .then(res => {
-      console.log(res, toRaw(modelRef));
+      console.log(res, toRaw(modelRef)); 
+      axios
+        .post("posts/add", { post: toRaw(modelRef) })
+        .then(() => {
+          emit('ok')
+          emit('ko')
+        })
+        .catch((error: Error) => {
+            alert(error.message)
+        });
     })
     .catch(err => {
       console.log('error', err);
+      emit('ko')
     });
 };
-const reset = () => {
-  resetFields();
-};
+
 </script>

@@ -59,7 +59,7 @@ export default defineComponent({
     (axios as AxiosStatic)
       .get("posts/all")
       .then((response: { data: { posts: [] } }) => {
-        listData.push(...response.data.posts)
+        listData.push(...response.data.posts.reverse())
         listData2.value.push(...listData.splice(0, 5));
         loading.value = false;
       })
